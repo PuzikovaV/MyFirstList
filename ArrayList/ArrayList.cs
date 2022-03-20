@@ -12,6 +12,28 @@
             Length = 0;
         }
 
+        public ArrayList(int value)
+        {
+            _array=new int[4];
+            Length = 1;
+            _array[0] = value;
+            
+        }
+
+        public ArrayList(int[] array)
+        {
+            _array = new int[4];
+            if (array.Length >= _array.Length)
+            {
+                UpSize();
+            }
+            for(int i=0; i < array.Length; i++)
+            {
+                _array[i] = array[i];
+            }
+            Length = array.Length;
+        }
+
         public void AddLast(int value)
         {
             if(Length >= _array.Length)
