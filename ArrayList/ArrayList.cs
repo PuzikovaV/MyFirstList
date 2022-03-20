@@ -58,6 +58,10 @@
         }
         public void InsertByIndex(int value, int index)
         {
+            if (index > Length-1)
+            {
+                throw new Exception("The array does not have this index");
+            }
             if (Length >= _array.Length)
             {
                 UpSize();
@@ -71,11 +75,19 @@
 
         public void DeleteLast()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
             Length--;
         }
 
         public void DeleteFirst()
         {
+            if(Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
             int[] newArray=new int[_array.Length-1];
 
             for(int i=0; i<_array.Length; i++)
@@ -89,6 +101,11 @@
 
         public void DeleteByIndex(int index)
         {
+            if (index > Length)
+            {
+                throw new Exception("The array does not have this index");
+            }
+
             int[] newArray = new int[_array.Length-1];
             for (int i=0; i<index; i++)
             {
@@ -105,6 +122,14 @@
 
         public void DeleteFewElementsFromStart(int amount)
         {
+            if(amount > Length)
+            {
+                throw new Exception("The array does not have that much elements");
+            }
+            else if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
             for (int i=0; i<amount; i++)
             {
                 DeleteFirst();
@@ -113,6 +138,15 @@
 
         public void DeleteFewElementsFromTheEnd(int amount)
         {
+            if (amount > Length)
+            {
+                throw new Exception("The array does not have that much elements");
+            }
+            else if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             for (int i = 0; i < amount; i++)
             {
                 DeleteLast();
@@ -121,6 +155,18 @@
 
         public void DeleteFewElementsByIndex(int index, int amount)
         {
+            if (amount > Length)
+            {
+                throw new Exception("The array does not have that much elements");
+            }
+            else if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+            else if (index > Length - 1)
+            {
+                throw new Exception("The array does not have this index");
+            }
             for (int i = 0; i < amount; i++)
             {
                 DeleteByIndex(index);
@@ -130,6 +176,10 @@
 
         public int ShowValueByIndex(int index)
         {
+            if(index > Length - 1)
+            {
+                throw new Exception("The array does not have this index");
+            }
             return _array[index];
         }
 
@@ -149,6 +199,11 @@
 
         public void ChangeElementByIndex (int value, int index)
         {
+            if (index > Length - 1)
+            {
+                throw new Exception("The array does not have this index");
+            }
+
             _array[index] = value;
         }
 
@@ -241,7 +296,7 @@
 
         public int DeleteFirstByElement(int value)
         {
-            int index = 0;
+            int index = -1;
             for(int i = 0; i < Length; i++)
             {
                 if (_array[i] == value)
@@ -269,7 +324,7 @@
                     Length--;
                 }
             }
-            return index;
+            return counter;
         }
 
         public void Reverse()
@@ -308,6 +363,11 @@
         
         private void InsertBetweenElements(int index)
         {
+            if (index > Length - 1)
+            {
+                throw new Exception("The array does not have this index");
+            }
+
             int[] newArray = new int[_array.Length];
 
             for(int i=0; i<index; i++)
