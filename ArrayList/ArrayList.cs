@@ -8,7 +8,7 @@
 
         public ArrayList()
         {
-            _array = new int[10];
+            _array = new int[4];
             Length = 0;
         }
 
@@ -52,6 +52,29 @@
             Length--;
         }
 
+        public void DeleteFirst()
+        {
+            int[] newArray=new int[_array.Length];
+
+            for(int i=0; i<newArray.Length; i++)
+            {
+                newArray[i] =_array[i+1];
+            }
+            _array = newArray;
+
+        }
+
+        public void DeleteByIndex(int index)
+        {
+            int[] newArray = new int[_array.Length];
+            
+            for (int i=index; i<newArray.Length; i++)
+            {
+                newArray[i]=_array[i+1];
+            }
+            _array= newArray;
+        }
+
         public void Write()
         {
             for(int i=0; i < Length; i++)
@@ -65,6 +88,7 @@
         {
             int newLength = (int)(_array.Length * 1.5d + 1);
             int[] newArray = new int[newLength];
+
             for (int i = 0; i < _array.Length; i++)
             {
                 newArray[i] = _array[i];
@@ -75,6 +99,7 @@
         private void InsertBetweenElements(int index)
         {
             int[] newArray = new int[_array.Length];
+
             for(int i=0; i<index; i++)
             {
                 newArray[i]=_array[i];
