@@ -1,18 +1,38 @@
-﻿namespace ArrayList
+﻿namespace MyArrayList
 {
-    public class ArrayList
+    public class AList
     {
+
+        public int this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                return _array[index];
+            }
+            set
+            {
+                if (index < 0 || index >= Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                _array[index] = value;
+            }
+        }
         public int Length { get; private set; }
 
         private int[] _array;
 
-        public ArrayList()
+        public AList()
         {
             _array = new int[4];
             Length = 0;
         }
 
-        public ArrayList(int value)
+        public AList(int value)
         {
             _array=new int[4];
             Length = 1;
@@ -20,18 +40,19 @@
             
         }
 
-        public ArrayList(int[] array)
+        public AList(int[] array)
         {
-            _array = new int[4];
-            if (array.Length >= _array.Length)
+            if (array == null || array.Length == 0)
             {
+                _array = new int[4];
+                Length = 0;
+            }
+            else
+            {
+                _array = array;
+                Length = array.Length;
                 UpSize();
             }
-            for(int i=0; i < array.Length; i++)
-            {
-                _array[i] = array[i];
-            }
-            Length = array.Length;
         }
 
         public void AddLast(int value)
@@ -155,7 +176,7 @@
 
         public void DeleteFewElementsByIndex(int index, int amount)
         {
-            if (amount > Length)
+            if (amount >= Length)
             {
                 throw new Exception("The array does not have that much elements");
             }
@@ -312,19 +333,21 @@
 
         public int DeleteEveryElementByValue(int value)
         {
-            int index = 0;
-            int counter = 0;
+            int count = 0;
             for (int i = 0; i < Length; i++)
             {
                 if (_array[i] == value)
                 {
-                    index = i;
-                    DeleteByIndex(index);
-                    counter++;
-                    Length--;
+                    count++;
+                }
+                else
+                {
+                    _array[i - count] = _array[i];
                 }
             }
-            return counter;
+            Length -= count;
+
+            return count;
         }
 
         public void Reverse()
@@ -347,6 +370,49 @@
                 Console.Write($"{_array[i]}");
             }
             Console.WriteLine();
+
+
+        }
+        public override string ToString()
+        {
+            string s = "";
+
+            for (int i = 0; i < Length; i++)
+            {
+                s += $"{_array[i]} ";
+            }
+
+            return s;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            bool isEqual = true;
+
+            if (obj == null || !(obj is AList))
+            {
+                isEqual = false;
+            }
+            else
+            {
+                AList list = (AList)obj;
+
+                if (list.Length != this.Length)
+                {
+                    isEqual = false;
+                }
+                else
+                {
+                    for (int i = 0; i < this.Length; i++)
+                    {
+                        if (list[i] != this[i])
+                        {
+                            isEqual = false;
+                        }
+                    }
+                }
+            }
+            return isEqual;
         }
 
         private void UpSize()
