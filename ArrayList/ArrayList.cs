@@ -79,7 +79,7 @@
         }
         public void InsertByIndex(int value, int index)
         {
-            if (index > Length-1)
+            if (index > Length - 1)
             {
                 throw new Exception("The array does not have this index");
             }
@@ -111,7 +111,7 @@
             }
             int[] newArray=new int[_array.Length-1];
 
-            for(int i=0; i<_array.Length; i++)
+            for(int i=0; i<Length; i++)
             {
                 newArray[i] =_array[i+1];
             }
@@ -133,7 +133,7 @@
                 newArray[i]=_array[i];
             }
             
-            for (int i=index; i<_array.Length; i++)
+            for (int i=index; i<Length; i++)
             {
                 newArray[i]=_array[i+1];
             }
@@ -151,10 +151,13 @@
             {
                 throw new Exception("The array is empty");
             }
-            for (int i=0; i<amount; i++)
+            int[] newArray=new int[_array.Length-amount];
+            for (int i=0; i<=Length; i++)
             {
-                DeleteFirst();
+                newArray[i] = _array[i + amount];
             }
+            _array = newArray;
+            Length -= amount;
         }
 
         public void DeleteFewElementsFromTheEnd(int amount)
@@ -168,10 +171,7 @@
                 throw new Exception("The array is empty");
             }
 
-            for (int i = 0; i < amount; i++)
-            {
-                DeleteLast();
-            }
+            Length -= amount;
         }
 
         public void DeleteFewElementsByIndex(int index, int amount)
@@ -220,10 +220,10 @@
 
         public void ChangeElementByIndex (int value, int index)
         {
-            if (index > Length - 1)
-            {
-                throw new Exception("The array does not have this index");
-            }
+            //if (index > Length - 1)
+            //{
+            //    throw new Exception("The array does not have this index");
+            //}
 
             _array[index] = value;
         }
@@ -440,7 +440,7 @@
             {
                 newArray[i]=_array[i];
             }
-            for(int i=index; i<_array.Length; i++)
+            for(int i=index; i< Length; i++)
             {
                 newArray[i+1]=_array[i];
             }
@@ -450,7 +450,7 @@
         private void InsertAtStart()
         {
             int[] newArray = new int[_array.Length];
-            for (int i = 0; i < _array.Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 newArray[i + 1] = _array[i];
             }
