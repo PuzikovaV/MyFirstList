@@ -79,7 +79,7 @@
         }
         public void InsertByIndex(int value, int index)
         {
-            if (index > Length - 1)
+            if (index > Length - 1 || index<0)
             {
                 throw new Exception("The array does not have this index");
             }
@@ -122,7 +122,7 @@
 
         public void DeleteByIndex(int index)
         {
-            if (index > Length)
+            if (index > Length-1 || index<0)
             {
                 throw new Exception("The array does not have this index");
             }
@@ -143,6 +143,7 @@
 
         public void DeleteFewElementsFromStart(int amount)
         {
+            int newLength=Length-amount; 
             if(amount > Length)
             {
                 throw new Exception("The array does not have that much elements");
@@ -152,7 +153,7 @@
                 throw new Exception("The array is empty");
             }
             int[] newArray=new int[_array.Length-amount];
-            for (int i=0; i<=Length; i++)
+            for (int i=0; i<newLength; i++)
             {
                 newArray[i] = _array[i + amount];
             }
@@ -220,16 +221,20 @@
 
         public void ChangeElementByIndex (int value, int index)
         {
-            //if (index > Length - 1)
-            //{
-            //    throw new Exception("The array does not have this index");
-            //}
+            if (index > Length - 1)
+            {
+                throw new Exception("The array does not have this index");
+            }
 
             _array[index] = value;
         }
 
         public int FindMaxElement()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
             int max = _array[0];
             for (int i=0; i<Length; i++)
             {
@@ -243,6 +248,11 @@
 
         public int FindMinElement()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             int min = _array[0];
             for (int i=0; i<Length; i++)
             {
@@ -256,6 +266,11 @@
 
         public int FindIndexOfMinElement()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             int min = _array[0];
             int minIndex=0;
             for(int i=0;i<Length; i++)
@@ -271,6 +286,11 @@
 
         public int FindInedxOfMaxElement()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             int max = _array[0];
             int maxIndex = 0;
             for (int i = 0; i < Length; i++)
@@ -286,6 +306,11 @@
 
         public void SortFromMinToMax()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             int tmp;
             for (int i = 0; i < Length - 1; i++)
             {
@@ -303,6 +328,11 @@
 
         public void SortFromMaxToMin()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             for (int i = Length - 1; i >= 0; i--)
             {
                 int tmp;
@@ -317,6 +347,11 @@
 
         public int DeleteFirstByElement(int value)
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             int index = -1;
             for(int i = 0; i < Length; i++)
             {
@@ -324,7 +359,6 @@
                 {
                     index = i;
                     DeleteByIndex(index);
-                    Length--;
                     break;
                 }
             }
@@ -333,6 +367,11 @@
 
         public int DeleteEveryElementByValue(int value)
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             int count = 0;
             for (int i = 0; i < Length; i++)
             {
@@ -352,6 +391,11 @@
 
         public void Reverse()
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
+
             int[] newArray=new int[Length];
             int j = 0;
             for(int i=Length-1; i>=0; i--)
