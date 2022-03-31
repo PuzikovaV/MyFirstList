@@ -144,7 +144,7 @@
         public void DeleteFewElementsFromStart(int amount)
         {
             int newLength=Length-amount; 
-            if(amount > Length)
+            if(amount >= Length)
             {
                 throw new Exception("The array does not have that much elements");
             }
@@ -171,8 +171,14 @@
             {
                 throw new Exception("The array is empty");
             }
-
-            Length -= amount;
+            int newLenght=Length-amount;
+            int[] newArray = new int[_array.Length - amount];
+            for (int i=0; i<newLenght; i++)
+            {
+                newArray[i] = _array[i];
+            }
+            _array = newArray;
+            Length-=amount;
         }
 
         public void DeleteFewElementsByIndex(int index, int amount)
@@ -198,6 +204,10 @@
 
         public int ShowValueByIndex(int index)
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
             if(index > Length - 1)
             {
                 throw new Exception("The array does not have this index");
@@ -207,6 +217,10 @@
 
         public int ShowIndexByValue (int value)
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
             int searchingIndex = -1;
             for(int i=0; i<Length; i++)
             {
@@ -221,6 +235,10 @@
 
         public void ChangeElementByIndex (int value, int index)
         {
+            if (Length == 0)
+            {
+                throw new Exception("The array is empty");
+            }
             if (index > Length - 1)
             {
                 throw new Exception("The array does not have this index");
@@ -333,15 +351,21 @@
                 throw new Exception("The array is empty");
             }
 
-            for (int i = Length - 1; i >= 0; i--)
+            for (int i = 0; i < Length - 1; i++)
             {
-                int tmp;
-                for (int j = 0; ; j++)
+                int min = i;
+                for (int j = i + 1; j < Length; j++)
                 {
-                    tmp = _array[j];
-                    _array[j] = _array[i];
-                    _array[i] = tmp;
+                    if (_array[j] > _array[min])
+                    {
+                        min = j;
+                    }
                 }
+                int tmp;
+                tmp = _array[min];
+                _array[min] = _array[i];
+                _array[i] = tmp;
+
             }
         }
 

@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using MyArrayList;
 using System;
+using MyList.Tests.MyListTestSources;
 
 namespace MyList.Tests
 {
@@ -49,10 +50,10 @@ namespace MyList.Tests
         }
 
         [TestCaseSource(typeof(ArrayDoesNotHaveThisIndexTestSource))]
-        public void InsertByIndexTest_WhenListIsEmpty_ShouldTrowException(int index, int value, AList list)
+        public void InsertByIndexTest_WhenListIsEmpty_ShouldTrowException(int value, int index, AList list)
         {
            
-            Assert.Throws<Exception>(() => list.InsertByIndex(index, value));
+            Assert.Throws<Exception>(() => list.InsertByIndex(value, index));
         }
 
         [TestCaseSource(typeof(DeleteLastTestSource))]
@@ -100,7 +101,22 @@ namespace MyList.Tests
         }
 
         [TestCaseSource(typeof(IndexDoesNotExistTestSourse))]
-        
+        public void DeleteByIndex_WhenIndexDoesNotExist_ShouldThrowException(int index, AList list)
+        {
+            Assert.Throws<Exception>(() => list.DeleteByIndex(index));
+        }
+
+        [TestCaseSource(typeof(ArrayIsEmptyWithAmountTestSource))]
+        public void DeleteFewElementsFromStart_WhenListIsEmpty_ShouldThrowException(int index, AList list)
+        {
+            Assert.Throws<Exception>(()=>list.DeleteByIndex(index));
+        }
+
+        [TestCaseSource(typeof(ArrayDoesNotHaveThisIndexTestSourceThatMuchElementsTestSource))]
+        public void DeleteFewElementsFromStart_WhenAmountMoreThanLength_ShouldThrowExeption(int amount, AList list)
+        {
+            Assert.Throws<Exception>(()=>list.DeleteFewElementsFromStart(amount));
+        }
 
         [TestCaseSource(typeof(DeleteFewElementsFromStartTestSource))]
         public void DeleteFewElementsFromStartTest(int amount, AList list, AList expectedList)
@@ -115,11 +131,60 @@ namespace MyList.Tests
         [TestCaseSource(typeof(DeleteFewElementsFromTheEndTestSource))]
         public void DeleteFewElementsFromTheEndTest(int amount, AList list, AList expectedList)
         {
-            list.DeleteFewElementsFromTheEnd(amount);
-
+            list.DeleteFewElementsFromTheEnd(amount);   
             AList actualList = list;
-
             Assert.AreEqual(expectedList, actualList);
+
+        }
+
+        [Test]
+        public void DeleteFewElementsFromTheEnd_WhenArrayIsEmpty_ShoulExceptionTest()
+        {
+            AList list = new AList();
+            int amount = 10;
+            Assert.Throws<Exception>(() => list.DeleteFewElementsFromTheEnd(amount));
+        }
+
+        [Test]
+        public void DeleteFewElementsFromTheEnd_WhenAmountMoreThanLength_ShoulExceptionTest()
+        {
+            AList list = new AList(new int[] { 1, 5, 2 });
+            int amount = 10;
+            Assert.Throws<Exception>(()=>list.DeleteFewElementsFromTheEnd(amount)); 
+        }
+
+        [TestCaseSource(typeof(DeleteFewElementsByIndexTestSource))]
+        public void DeleteFewElementsByIndexTest(int index, int amount, AList list, AList expectedList)
+        {
+            list.DeleteFewElementsByIndex(index, amount);
+            AList actualList = list;
+            Assert.AreEqual(expectedList, actualList);
+        }
+
+        [Test]
+        public void DeleteFewElementsByIndex_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            int index = 15;
+            int amount = 25;
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.DeleteFewElementsByIndex(index, amount));
+        }
+
+        [Test]
+        public void DeleteFewElementsByIndex_WhenAmountMoreThanLength_ShouldExceptionTest()
+        {
+            int index = 10;
+            int amount = 25;
+            AList list = new AList(new int[] { 1, 5, 2 });
+            Assert.Throws<Exception>(() => list.DeleteFewElementsByIndex(index, amount));
+        }
+        [Test]
+        public void DeleteFewElementsByIndex_WhenIndexOutOfRange_ShouldExceptionTest()
+        {
+            int index = 10;
+            int amount = 25;
+            AList list = new AList(new int[] { 1, 5, 2 });
+            Assert.Throws<Exception>(() => list.DeleteFewElementsByIndex(index, amount));
         }
 
         [TestCaseSource(typeof(ShowValueByIndexTestSource))]
@@ -130,6 +195,22 @@ namespace MyList.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
+        [Test]
+        public void ShowValueByIndex_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            int index = 15;
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.ShowValueByIndex(index));
+        }
+        
+        [Test]
+        public void ShowValueByIndex_WhenIndexIsMoreThanLength_ShouldExceptionTest()
+        {
+            int index = 99;
+            AList list = new AList(new int[] { 1, 4, 5 });
+            Assert.Throws<Exception>(() => list.ShowValueByIndex(index));
+        }
+        
         [TestCaseSource(typeof(ShowIndexByValueTestSource))]
         public void ShowIndexByValueTest(int value, AList list, int expectedIndex)
         {
@@ -137,6 +218,14 @@ namespace MyList.Tests
 
             Assert.AreEqual(expectedIndex, actualIndex);
     
+        }
+
+        [Test]
+        public void ShowIndexByValue_WhenTheArrayIsEmpty_ShoulsExcpetionTest()
+        {
+            int value = 50;
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.ShowIndexByValue(value));
         }
 
         [TestCaseSource(typeof(ChangeElementByIndexTestSource))]
@@ -150,12 +239,65 @@ namespace MyList.Tests
 
         }
 
+        [Test]
+        public void ChangeElementByIndex_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            int value = 15;
+            int index = 20;
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.ChangeElementByIndex(value, index));
+        }
+
+        [Test]
+        public void ChangeElementByIndex_WhenIndexOutOfRange_ShouldException()
+        {
+            int index = 19;
+            int value = 10;
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.ChangeElementByIndex(value, index));
+        }
+
+        [TestCaseSource(typeof(FindMaxElementTestSource))]
+        public void FindMaxElementTest(AList list, int expectedMax)
+        {
+            int actualMax=list.FindMaxElement();
+            Assert.AreEqual(expectedMax, actualMax);
+        }
+
+        [Test]
+        public void FindMaxElement_WhenArrayIsEmpty_ShoulExceptionTest()
+        {
+            AList list = new AList();
+            Assert.Throws<Exception>(()=>list.FindMaxElement());
+        }
+
+        [TestCaseSource(typeof(FindMinElementTestSource))]
+        public void FindMinElementTest(AList list, int expectedMin)
+        {
+            int actualMin = list.FindMinElement();
+            Assert.AreEqual(expectedMin, actualMin);
+        }
+
+        [Test]
+        public void FindMinElement_WhenArrsyIsEmpty_ShouldExceptionTest()
+        {
+            AList list = new AList();
+            Assert.Throws<Exception>(()=>list.FindMinElement());    
+        }
+
         [TestCaseSource(typeof(FindIndexOfMinElementTestSource))]
         public void FindIndexOfMinElementTest(AList list, int expectedIndexOfMinElement)
         {
             int actualIndexOfMinElement = list.FindIndexOfMinElement();
 
             Assert.AreEqual(expectedIndexOfMinElement, actualIndexOfMinElement);
+        }
+
+        [Test]
+        public void FindIndexOfMinElement_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.FindIndexOfMinElement());
         }
 
         [TestCaseSource(typeof(FindInedxOfMaxElementTestSource))]
@@ -166,12 +308,40 @@ namespace MyList.Tests
             Assert.AreEqual(expectedIndexOfMaxElement, actualIndexOfMaxElement);
         }
 
+        [Test]
+        public void FindInedxOfMaxElement_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.FindInedxOfMaxElement());
+        }
+
         [TestCaseSource(typeof(SortFromMinToMaxTestSource))]
         public void SortFromMinToMaxTest(AList list, AList expectedList)
         {
             list.SortFromMinToMax();
             AList actualList = list;
             Assert.AreEqual(expectedList, actualList);
+        }
+
+        [Test]
+        public void SortFromMinToMax_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.SortFromMinToMax());
+        }
+
+        [TestCaseSource(typeof(SortFromMaxToMinTestSource))]
+        public void SortFromMaxToMinTest(AList list, AList expectedList)
+        {
+            AList actualList = list;
+            Assert.AreEqual(expectedList, actualList);
+        }
+
+        [Test]
+        public void SortFromMaxToMin_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            AList list = new AList();
+            Assert.Throws<Exception>(() => list.SortFromMaxToMin());
         }
 
         [TestCaseSource(typeof(DeleteFirstByElementTestSource))]
@@ -184,6 +354,14 @@ namespace MyList.Tests
             Assert.AreEqual(expectedIndex, actualIndex);
         }
 
+        [Test]
+        public void DeleteFirstByElement_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            AList list = new AList();
+            int value = 55;
+            Assert.Throws<Exception>(() => list.DeleteFirstByElement(value));
+        }
+
         [TestCaseSource(typeof(ReverseTestSource))]
         public void ReverseTest(AList list, AList expectedList)
         {
@@ -193,398 +371,61 @@ namespace MyList.Tests
             Assert.AreEqual(expectedList, actualList);
         }
         
+        [Test]
+        public void DeleteEveryElementByValue_WhenArrayIsEmpty_ShouldExceptionTest()
+        {
+            AList list = new AList();
+            int value = 55;
+            Assert.Throws<Exception>(() => list.DeleteEveryElementByValue(value));
+        }
         
 
     }
 
-    public class DeleteEveryElementByValueTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int value = 3;
-            AList list = new AList(new int[] { 1, 2, 3, 4, 5 });
-            AList expectedList = new AList(new int[] { 1, 2, 4, 5 });
-            int expectedNumber = 1;
-            yield return new object[] { value, list, expectedList, expectedNumber };
+    
 
-            value = 2;
-            list = new AList(new int[] { 5, 7, 3, 99, 5 });
-            expectedList = new AList(new int[] { 5, 7, 3, 99, 5 });
-            expectedNumber = 0;
-            yield return new object[] { value, list, expectedList, expectedNumber };
+    
 
-            value = 16;
-            list = new AList(new int[] { 16, 85, 9, 16, 16 });
-            expectedList = new AList(new int[] { 85, 9});
-            expectedNumber = 3;
-            yield return new object[] { value, list, expectedList, expectedNumber };
+ 
 
-        }
-    }
+    
 
-    public class AddLastTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int value = 15;
-            AList list = new AList(new int[] { 15, 18, 19, 25 });
-            AList expectedList = new AList(new int[] { 15, 18, 19, 25, 15 });
-            yield return new object[] { value, list, expectedList };
 
-            value = -80;
-            list = new AList(new int[] {});
-            expectedList = new AList(new int[] { -80 });
-            yield return new object[] { value, list, expectedList };
 
-            value = 8;
-            list = new AList(new int[] { 4 });
-            expectedList = new AList(new int[] { 4, 8 });
-            yield return new object[] { value, list, expectedList };
-        }
-    }
+    
 
-    public class AddFirstTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int value = 2;
-            AList list = new AList(new int[] { 15, 18, 19, 25 });
-            AList expectedList = new AList(new int[] { 2, 15, 18, 19, 25 });
-            yield return new object[] { value, list, expectedList };
+    
 
-            value = 568;
-            list = new AList(new int[] { });
-            expectedList = new AList(new int[] { 568 });
-            yield return new object[] { value, list, expectedList };
+    
 
-            value = 19;
-            list = new AList(new int[] { 4 });
-            expectedList = new AList(new int[] { 19, 4 });
-            yield return new object[] { value, list, expectedList };
-        }
-    }
+   
 
-    public class InsertByIndexTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int value = 2;
-            int index = 2;
-            AList list = new AList(new int[] { 15, 18, 19, 25 });
-            AList expectedList = new AList(new int[] { 15, 18, 2, 19, 25 });
-            yield return new object[] { value, index, list, expectedList };
+    
 
-            value = 5;
-            index = 0;
-            list = new AList(new int[] { 7 });
-            expectedList = new AList(new int[] { 5, 7 });
-            yield return new object[] { value, index, list, expectedList };
+    
 
-            value = 19;
-            index = 1;
-            list = new AList(new int[] { 4, 8 });
-            expectedList = new AList(new int[] { 4, 19, 8 });
-            yield return new object[] { value, index, list, expectedList };
-        }
-    }
+    
 
-    public class DeleteLastTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 1, 5, 9, 20 });
-            AList expectedList = new AList(new int[] { 1, 5, 9 });
-            yield return new object[] { list, expectedList };
+    
 
-            list = new AList(new int[] { 1, 5 });
-            expectedList = new AList(new int[] { 1 });
-            yield return new object[] { list, expectedList };
+    
 
-            list = new AList(new int[] { 1 });
-            expectedList = new AList(new int[] { });
-            yield return new object[] { list, expectedList };
+    
 
-        }
-    }
+    
 
-    public class DeleteFirstTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 1, 5, 9, 20 });
-            AList expectedList = new AList(new int[] { 5, 9, 20 });
-            yield return new object[] { list, expectedList };
+    
 
-            list = new AList(new int[] { 4, 1 });
-            expectedList = new AList(new int[] { 1 });
-            yield return new object[] { list, expectedList };
+    
 
-            list = new AList(new int[] { 1 });
-            expectedList = new AList(new int[] { });
-            yield return new object[] { list, expectedList };
-        }
-    }
+    
 
-    public class DeleteByIndexTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int index = 2;
-            AList list = new AList(new int[] { 1, 6, 8});
-            AList expectedList = new AList(new int[] {1,6});
-            yield return new object[] { index, list, expectedList };
+    
 
-            index = 0;
-            list = new AList(new int[] { 1, 6, 8 });
-            expectedList = new AList(new int[] { 6, 8 });
-            yield return new object[] { index, list, expectedList };
+    
+    
 
-            index = 0;
-            list = new AList(new int[] { 5 });
-            expectedList = new AList(new int[] { });
-            yield return new object[] { index, list, expectedList };
-        }
-    }
+   
 
-    public class DeleteFewElementsFromStartTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int amount = 3;
-            AList list = new AList(new int[] { 5, 9, 50, 26 });
-            AList expectedList = new AList(new int[] { 26 });
-            yield return new object[] { amount, list, expectedList };
-
-            amount = 2;
-            list = new AList(new int[] { 9, 50, 26 });
-            expectedList = new AList(new int[] { 26 });
-            yield return new object[] { amount, list, expectedList };
-
-            amount = 3;
-            list = new AList(new int[] { 9, 50, 26 });
-            expectedList = new AList(new int[] { });
-            yield return new object[] { amount, list, expectedList };
-        }
-    }
-
-    public class DeleteFewElementsFromTheEndTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int amount = 2;
-            AList list = new AList(new int[] { 5, 4, 6, 8 });
-            AList expectedList = new AList(new int[] { 5, 4 });
-            yield return new object[] {amount, list, expectedList };
-
-            amount = 3;
-            list = new AList(new int[] { 4, 6, 8 });
-            expectedList = new AList(new int[] { });
-            yield return new object[] { amount, list, expectedList };
-        }
-    }
-
-    public class ShowValueByIndexTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int index = 1;
-            AList list = new AList(new int[] { 88, 25, 6 });
-            int expectedValue = 25;
-            yield return new object[] { index, list, expectedValue };
-
-            index = 5;
-            list = new AList(new int[] { 15, 16, 6, 9, 7, 8 });
-            expectedValue = 8;
-            yield return new object[] { index, list, expectedValue };
-        }
-    }
-
-    public class ShowIndexByValueTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int value = 5;
-            AList list = new AList(new int[] { 88, 6, 25, 5 });
-            int expectedIndex = 3;
-            yield return new object[] { value, list, expectedIndex };
-
-            value = 88;
-            list = new AList(new int[] { 88, 6, 25, 5 });
-            expectedIndex = 0;
-            yield return new object[] { value, list, expectedIndex };
-        }
-    }
-
-    public class ChangeElementByIndexTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int value = 5;
-            int index = 2;
-            AList list = new AList(new int[] { 15, 20, 36, 8 });
-            AList expectedList = new AList(new int[] { 15, 20, 5, 8 });
-            yield return new object[] { value, index, list, expectedList };
-
-            value = 165;
-            index = 0;
-            list = new AList(new int[] { 15, 20, 36, 8 });
-            expectedList = new AList(new int[] { 165, 20, 36, 8 });
-            yield return new object[] { value, index, list, expectedList };
-        }
-    }
-
-    public class FindMaxElementTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 88, 2, 6 });
-            int expectedMaxValue = 88;
-            yield return new object[] {list, expectedMaxValue};
-
-            list = new AList(new int[] { 1, 2, 2 });
-            expectedMaxValue = 2;
-            yield return new object[] { list, expectedMaxValue };
-        }
-    }
-
-    public class FindMinElementTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 88, 2, 6 });
-            int expectedMinValue = 2;
-            yield return new object[] { list, expectedMinValue };
-
-            list = new AList(new int[] { 1, 2, 2 });
-            expectedMinValue = 1;
-            yield return new object[] { list, expectedMinValue };
-        }
-    }
-
-    public class FindIndexOfMinElementTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 1, 15, 6 });
-            int expectedIndexOfMinElement = 0;
-            yield return new object[] { list, expectedIndexOfMinElement };
-
-            list = new AList(new int[] { 56, 5, 100 });
-            expectedIndexOfMinElement = 1;
-            yield return new object[] { list, expectedIndexOfMinElement };
-        }
-    }
-
-    public class FindInedxOfMaxElementTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 8, 2, 6 });
-            int expectedFindInedxOfMaxElement = 0;
-            yield return new object[] { list, expectedFindInedxOfMaxElement };
-
-            list = new AList(new int[] { 1, 25, 2 });
-            expectedFindInedxOfMaxElement = 1;
-            yield return new object[] { list, expectedFindInedxOfMaxElement };
-        }
-    }
-
-    public class SortFromMinToMaxTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 12, 6, 2, 8 });
-            AList expectedList = new AList(new int[] {2, 6, 8, 12 });
-            yield return new object[] {list, expectedList};
-
-            list = new AList(new int[] { 1, 2, 1, 3 });
-            expectedList = new AList(new int[] { 1, 1, 2, 3 });
-            yield return new object[] { list, expectedList };
-        }
-    }
-
-    public class SortFromMaxToMinTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] { 12, 6, 2, 8 });
-            AList expectedList = new AList(new int[] { 12, 8, 6, 2 });
-            yield return new object[] { list, expectedList };
-
-            list = new AList(new int[] { 1, 2, 1, 3 });
-            expectedList = new AList(new int[] { 3, 2, 1, 1 });
-            yield return new object[] { list, expectedList };
-        }
-    }
-
-    public class DeleteFirstByElementTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int value = 5;
-            AList list = new AList(new int[] {1,6,5,8,9});
-            AList expectedList = new AList(new int[] { 1, 6, 8, 9 });
-            int expectedIndex = 2;
-            yield return new object[] {value, list, expectedList, expectedIndex };
-
-            value = 9;
-            list = new AList(new int[] { 1, 6, 5, 8, 9 });
-            expectedList = new AList(new int[] { 1, 6, 5, 8 });
-            expectedIndex = 4;
-            yield return new object[] { value, list, expectedList, expectedIndex };
-        }
-    }
-
-    public class ReverseTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            AList list = new AList(new int[] {1,4,6,8});
-            AList expectedList = new AList(new int[] { 8, 6, 4, 1 });
-            yield return new object[] {list, expectedList};
-
-            list = new AList(new int[] { 1, 55});
-            expectedList = new AList(new int[] { 55, 1 });
-            yield return new object[] { list, expectedList };
-
-        }
-    }
-
-    public class ArrayDoesNotHaveThisIndexTestSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int index = 9;
-            int value = 3;
-            AList list = new AList(new int[] { 5, 1, 6, 8, 9 });
-            yield return new object[] { index,value, list };
-
-            index = 0;
-            value = 5;
-            list = new AList(new int[]{ });
-            yield return new object[] { index, value, list };
-
-            index = -2;
-            value = 5;
-            list = new AList(new int[] { 5, 1, 6, 8, 9 });
-            yield return new object[] { index, value, list };
-        }
-    }
-    public class IndexDoesNotExistTestSourse : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            int index = 9;
-            AList list = new AList(new int[] { 5, 1, 6, 8, 9 });
-            yield return new object[] { index, list };
-
-            index = -2;
-            list = new AList(new int[] { });
-            yield return new object[] { index, list };
-
-            index = -2;
-            list = new AList(new int[] { 5, 1, 6, 8, 9 });
-            yield return new object[] { index, list };
-        }
-    }
+    
 }
