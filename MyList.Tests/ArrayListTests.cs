@@ -378,7 +378,30 @@ namespace MyList.Tests
             int value = 55;
             Assert.Throws<Exception>(() => list.DeleteEveryElementByValue(value));
         }
-        
+
+        [TestCaseSource(typeof(AddListInTheStartTestSource))]
+        public void AddListInTheStartTest(AList extraList, AList list, AList expectedList)
+        {
+            list.AddListInTheStart(extraList);
+            AList actualList = list;
+            Assert.AreEqual(expectedList, actualList);
+        }
+
+        [TestCaseSource(typeof(AddListInTheEndTestSource))]
+        public void AddListInTheEndTest(AList extraList, AList list, AList expectedList)
+        {
+            list.AddListInTheEnd(extraList);
+            AList actualList = list;
+            Assert.AreEqual(expectedList, actualList);
+        }
+
+        [TestCaseSource(typeof(AddListByIndexTestSource))]
+        public void AddListByIndexTest(AList extraList, int index, AList list, AList expectedList)
+        {
+            list.AddListByIndex(extraList, index);
+            AList actualList = list;
+            Assert.AreEqual(expectedList, actualList);
+        }
 
     }
 

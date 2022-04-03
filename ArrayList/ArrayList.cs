@@ -351,21 +351,18 @@
                 throw new Exception("The array is empty");
             }
 
+            int tmp;
             for (int i = 0; i < Length - 1; i++)
             {
-                int min = i;
                 for (int j = i + 1; j < Length; j++)
                 {
-                    if (_array[j] > _array[min])
+                    if (_array[i] < _array[j])
                     {
-                        min = j;
+                        tmp = _array[i];
+                        _array[i] = _array[j];
+                        _array[j] = tmp;
                     }
                 }
-                int tmp;
-                tmp = _array[min];
-                _array[min] = _array[i];
-                _array[i] = tmp;
-
             }
         }
 
@@ -428,6 +425,79 @@
                 j++;
             }
             _array= newArray;
+        }
+
+        public void AddListInTheStart(AList list)
+        {
+            int newLength = (int)((Length+list.Length)*1.5d+1);
+            int[] newArray = new int[newLength];
+            for(int i=0; i<list.Length; i++)
+            {
+                newArray[i] = list[i];
+            }
+            for(int i=0; i<Length; i++)
+            {
+                newArray[i+list.Length] = _array[i];
+            }
+            _array = newArray;
+            Length += list.Length;
+
+        }
+
+        public void AddListInTheEnd(AList list)
+        {
+            int newLength = (int)((Length + list.Length) * 1.5d + 1);
+            int[] newArray = new int[newLength];
+            for(int i=0; i<Length; i++)
+            {
+                newArray[i] = _array[i];
+            }
+            for(int i=0; i < list.Length; i++)
+            {
+                newArray[i + Length] = list[i];
+            }
+            _array = newArray;
+            Length += list.Length;
+        }
+
+        public void AddListByIndex(AList list, int index)
+        {
+            int newLength = (int)((Length + list.Length) * 1.5d + 1);
+            int[] newArray = new int[newLength];
+            if (index == 0)
+            {
+                AddListInTheStart(list);
+            }
+            if (index<0 || index > Length-1)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            if (Length == 0)
+            {
+                throw new Exception("The list is empty");
+            }
+            if (index == 0)
+            {
+                AddListInTheStart(list);
+            }
+            else
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    newArray[i] = _array[i];
+                }
+                for (int i = 0; i < list.Length; i++)
+                {
+                    newArray[i + index] = list[i];
+                }
+                for (int i = 0; i < Length; i++)
+                {
+                    newArray[i + index + list.Length] = _array[i + index];
+                }
+            }
+
+            _array = newArray;
+            Length += list.Length;
         }
 
 
