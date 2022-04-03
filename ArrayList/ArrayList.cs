@@ -34,10 +34,10 @@
 
         public AList(int value)
         {
-            _array=new int[4];
+            _array = new int[4];
             Length = 1;
             _array[0] = value;
-            
+
         }
 
         public AList(int[] array)
@@ -57,12 +57,12 @@
 
         public void AddLast(int value)
         {
-            if(Length >= _array.Length)
+            if (Length >= _array.Length)
             {
                 UpSize();
             }
-                _array[Length]=value;
-                Length++;
+            _array[Length] = value;
+            Length++;
         }
 
         public void AddFirst(int value)
@@ -74,12 +74,12 @@
 
             InsertAtStart();
 
-            _array[0]=value;
+            _array[0] = value;
             Length++;
         }
         public void InsertByIndex(int value, int index)
         {
-            if (index > Length - 1 || index<0)
+            if (index > Length - 1 || index < 0)
             {
                 throw new Exception("The array does not have this index");
             }
@@ -105,15 +105,15 @@
 
         public void DeleteFirst()
         {
-            if(Length == 0)
+            if (Length == 0)
             {
                 throw new Exception("The array is empty");
             }
-            int[] newArray=new int[_array.Length-1];
+            int[] newArray = new int[_array.Length - 1];
 
-            for(int i=0; i<Length; i++)
+            for (int i = 0; i < Length; i++)
             {
-                newArray[i] =_array[i+1];
+                newArray[i] = _array[i + 1];
             }
             _array = newArray;
             Length--;
@@ -122,29 +122,29 @@
 
         public void DeleteByIndex(int index)
         {
-            if (index > Length-1 || index<0)
+            if (index > Length - 1 || index < 0)
             {
                 throw new Exception("The array does not have this index");
             }
 
-            int[] newArray = new int[_array.Length-1];
-            for (int i=0; i<index; i++)
+            int[] newArray = new int[_array.Length - 1];
+            for (int i = 0; i < index; i++)
             {
-                newArray[i]=_array[i];
+                newArray[i] = _array[i];
             }
-            
-            for (int i=index; i<Length; i++)
+
+            for (int i = index; i < Length; i++)
             {
-                newArray[i]=_array[i+1];
+                newArray[i] = _array[i + 1];
             }
-            _array= newArray;
+            _array = newArray;
             Length--;
         }
 
         public void DeleteFewElementsFromStart(int amount)
         {
-            int newLength=Length-amount; 
-            if(amount >= Length)
+            int newLength = Length - amount;
+            if (amount >= Length)
             {
                 throw new Exception("The array does not have that much elements");
             }
@@ -152,8 +152,8 @@
             {
                 throw new Exception("The array is empty");
             }
-            int[] newArray=new int[_array.Length-amount];
-            for (int i=0; i<newLength; i++)
+            int[] newArray = new int[_array.Length - amount];
+            for (int i = 0; i < newLength; i++)
             {
                 newArray[i] = _array[i + amount];
             }
@@ -171,14 +171,14 @@
             {
                 throw new Exception("The array is empty");
             }
-            int newLenght=Length-amount;
+            int newLenght = Length - amount;
             int[] newArray = new int[_array.Length - amount];
-            for (int i=0; i<newLenght; i++)
+            for (int i = 0; i < newLenght; i++)
             {
                 newArray[i] = _array[i];
             }
             _array = newArray;
-            Length-=amount;
+            Length -= amount;
         }
 
         public void DeleteFewElementsByIndex(int index, int amount)
@@ -208,32 +208,32 @@
             {
                 throw new Exception("The array is empty");
             }
-            if(index > Length - 1)
+            if (index > Length - 1)
             {
                 throw new Exception("The array does not have this index");
             }
             return _array[index];
         }
 
-        public int ShowIndexByValue (int value)
+        public int ShowIndexByValue(int value)
         {
             if (Length == 0)
             {
                 throw new Exception("The array is empty");
             }
             int searchingIndex = -1;
-            for(int i=0; i<Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 if (_array[i] == value)
                 {
                     searchingIndex = i;
                     break;
-                } 
+                }
             }
             return searchingIndex;
         }
 
-        public void ChangeElementByIndex (int value, int index)
+        public void ChangeElementByIndex(int value, int index)
         {
             if (Length == 0)
             {
@@ -254,11 +254,11 @@
                 throw new Exception("The array is empty");
             }
             int max = _array[0];
-            for (int i=0; i<Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 if (max < _array[i])
                 {
-                    max= _array[i];
+                    max = _array[i];
                 }
             }
             return max;
@@ -272,11 +272,11 @@
             }
 
             int min = _array[0];
-            for (int i=0; i<Length; i++)
+            for (int i = 0; i < Length; i++)
             {
-                if (min> _array[i])
+                if (min > _array[i])
                 {
-                    min=_array[i];
+                    min = _array[i];
                 }
             }
             return min;
@@ -290,13 +290,13 @@
             }
 
             int min = _array[0];
-            int minIndex=0;
-            for(int i=0;i<Length; i++)
+            int minIndex = 0;
+            for (int i = 0; i < Length; i++)
             {
                 if (min > _array[i])
                 {
-                    min=_array[i];
-                    minIndex= i;
+                    min = _array[i];
+                    minIndex = i;
                 }
             }
             return minIndex;
@@ -374,7 +374,7 @@
             }
 
             int index = -1;
-            for(int i = 0; i < Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 if (_array[i] == value)
                 {
@@ -417,27 +417,27 @@
                 throw new Exception("The array is empty");
             }
 
-            int[] newArray=new int[Length];
+            int[] newArray = new int[Length];
             int j = 0;
-            for(int i=Length-1; i>=0; i--)
+            for (int i = Length - 1; i >= 0; i--)
             {
                 newArray[j] = _array[i];
                 j++;
             }
-            _array= newArray;
+            _array = newArray;
         }
 
         public void AddListInTheStart(AList list)
         {
-            int newLength = (int)((Length+list.Length)*1.5d+1);
+            int newLength = (int)((Length + list.Length) * 1.5d + 1);
             int[] newArray = new int[newLength];
-            for(int i=0; i<list.Length; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 newArray[i] = list[i];
             }
-            for(int i=0; i<Length; i++)
+            for (int i = 0; i < Length; i++)
             {
-                newArray[i+list.Length] = _array[i];
+                newArray[i + list.Length] = _array[i];
             }
             _array = newArray;
             Length += list.Length;
@@ -448,11 +448,11 @@
         {
             int newLength = (int)((Length + list.Length) * 1.5d + 1);
             int[] newArray = new int[newLength];
-            for(int i=0; i<Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 newArray[i] = _array[i];
             }
-            for(int i=0; i < list.Length; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 newArray[i + Length] = list[i];
             }
@@ -464,37 +464,26 @@
         {
             int newLength = (int)((Length + list.Length) * 1.5d + 1);
             int[] newArray = new int[newLength];
-            if (index == 0)
-            {
-                AddListInTheStart(list);
-            }
-            if (index<0 || index > Length-1)
+
+            if (index < 0 || index > Length - 1)
             {
                 throw new IndexOutOfRangeException();
             }
-            if (Length == 0)
+
+
+            for (int i = 0; i < index; i++)
             {
-                throw new Exception("The list is empty");
+                newArray[i] = _array[i];
             }
-            if (index == 0)
+            for (int i = 0; i < list.Length; i++)
             {
-                AddListInTheStart(list);
+                newArray[i + index] = list[i];
             }
-            else
+            for (int i = 0; i < Length; i++)
             {
-                for (int i = 0; i < index; i++)
-                {
-                    newArray[i] = _array[i];
-                }
-                for (int i = 0; i < list.Length; i++)
-                {
-                    newArray[i + index] = list[i];
-                }
-                for (int i = 0; i < Length; i++)
-                {
-                    newArray[i + index + list.Length] = _array[i + index];
-                }
+                newArray[i + index + list.Length] = _array[i + index];
             }
+
 
             _array = newArray;
             Length += list.Length;
@@ -503,7 +492,7 @@
 
         public void Write()
         {
-            for(int i=0; i < Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 Console.Write($"{_array[i]}");
             }
@@ -564,7 +553,7 @@
             }
             _array = newArray;
         }
-        
+
         private void InsertBetweenElements(int index)
         {
             if (index > Length - 1)
@@ -574,15 +563,15 @@
 
             int[] newArray = new int[_array.Length];
 
-            for(int i=0; i<index; i++)
+            for (int i = 0; i < index; i++)
             {
-                newArray[i]=_array[i];
+                newArray[i] = _array[i];
             }
-            for(int i=index; i< Length; i++)
+            for (int i = index; i < Length; i++)
             {
-                newArray[i+1]=_array[i];
+                newArray[i + 1] = _array[i];
             }
-            _array= newArray;
+            _array = newArray;
         }
 
         private void InsertAtStart()

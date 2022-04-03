@@ -333,6 +333,7 @@ namespace MyList.Tests
         [TestCaseSource(typeof(SortFromMaxToMinTestSource))]
         public void SortFromMaxToMinTest(AList list, AList expectedList)
         {
+            list.SortFromMaxToMin();
             AList actualList = list;
             Assert.AreEqual(expectedList, actualList);
         }
@@ -403,6 +404,11 @@ namespace MyList.Tests
             Assert.AreEqual(expectedList, actualList);
         }
 
+        [TestCaseSource(typeof(AddListByIndex_WhenIndexMoreThanLength_ShouldExceptionTestSource))]
+        public void AddListByIndex_WhenIndexMoreThanLength_ShouldExceptionTest(AList extraList, int index,AList list)
+        {
+            Assert.Throws<IndexOutOfRangeException>(()=>list.AddListByIndex(extraList, index)); 
+        }
     }
 
     

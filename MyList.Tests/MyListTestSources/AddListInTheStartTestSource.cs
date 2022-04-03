@@ -26,6 +26,11 @@ namespace MyList.Tests.MyListTestSources
             expectedList = new AList(new int[] { 7 });
             yield return new object[] { extraList, list, expectedList };
 
+            extraList = new AList(new int[] { 7 });
+            list = new AList(new int[] { 9 });
+            expectedList = new AList(new int[] { 7, 9 });
+            yield return new object[] { extraList, list, expectedList };
+
         }
     }
 }
